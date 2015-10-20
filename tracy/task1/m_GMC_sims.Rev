@@ -1,0 +1,34 @@
+###########################################################
+############ Strict clock model on branch rates ###########
+###########################################################
+
+### the clock rate applied to every branch in the tree
+### with a gamma prior and a scale move
+clock_rate ~ dnExponential(1.0)
+moves[mi++] = mvScale(clock_rate,lambda=0.5,tune=true,weight=5.0)
+
+### set up the GTR model and instantaneous rate matrix
+### the stationary base frequencies 
+### with a flat Dirichlet prior
+sf_hp <- v(1,1,1,1)
+sf ~ dnDirichlet(sf_hp)
+
+### the exchangeability rates 
+### with a flat Dirichlet prior
+er_hp <- v(1,1,1,1,1,1)
+er ~ dnDirichlet(er_hp)
+
+### a deterministic node for the instantaneous rate matrix
+Q := fnGTR(er,sf)
+
+### simplex moves for er and sf
+moves[mi++] = mvSimplexElementScale(er, alpha=10.0, tune=true, weight=3.0)
+moves[mi++] = mvSimplexElementScale(sf, alpha=10.0, tune=true, weight=3.0)
+
+### the full phylogenetic CTMC
+phySeq ~ dnPhyloCTMC(tree=timetree, Q=Q, branchRates=clock_rate, nSites=n_sites, type="DNA")
+
+### attach the observed sequence data
+phySeq.clamp(D)
+
+

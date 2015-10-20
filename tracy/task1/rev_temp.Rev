@@ -1,0 +1,70 @@
+D <- readDiscreteCharacterData(file="SEQDATAFILE")
+
+n_sites <- D.nchar()
+
+mi = 1
+
+T <- readTrees("TRUETREEFILE")[1]
+
+n_taxa <- T.ntips()
+names <- T.names()
+
+birth_rate <- 0.02
+death_rate <- 0.01
+rho <- 1.0
+
+## Define ROOT ###
+true_root_age <- T.rootAge()
+root_min <- ROOTAGEMIN
+root_max <- (2.0 * (true_root_age - root_min)) + root_min
+root_time ~ dnUniform(root_min, root_max)
+root_time.setValue(true_root_age)
+
+### Clades ###
+CLADEVARDEF
+
+
+timetree ~ dnBDP(lambda=birth_rate, mu=death_rate, rho=rho, rootAge=root_time, samplingStrategy="uniform", condition="nTaxa", nTaxa=n_taxa, names=names)
+timetree.setValue(T)
+
+### Calibrations ###
+CALIBRATIONDEFS
+
+moves[mi++] = mvNodeTimeSlideUniform(timetree, weight=30.0)
+moves[mi++] = mvSlide(root_time, delta=2.0, tune=true, weight=10.0)
+moves[mi++] = mvScale(root_time, lambda=2.0, tune=true, weight=10.0)
+moves[mi++] = mvTreeScale(tree=timetree, rootAge=root_time, delta=1.0, tune=true, weight=3.0)
+
+### load the model from file 
+source("m_GMC_sims.Rev")
+
+### workspace model wrapper ###
+mymodel = model(er)
+
+### set up the monitors that will output parameter values to file and screen 
+monitors[1] = mnModel(filename="output/OUTPUTFILEPFX_mcmc.log", printgen=10)
+monitors[2] = mnFile(filename="output/OUTPUTFILEPFX_mcmc.trees", printgen=10, timetree)
+monitors[3] = mnScreen(printgen=1000, clock_rate, root_time)
+
+### workspace mcmc ###
+mymcmc = mcmc(mymodel, monitors, moves)
+
+### pre-burnin to tune the proposals ###
+mymcmc.burnin(generations=1000,tuningInterval=250)
+
+### run the MCMC ###
+mymcmc.run(generations=10000)
+
+### display proposal acceptance rates and tuning ###
+mymcmc.operatorSummary()
+
+### summarize the trees ###
+tt = readTreeTrace("output/OUTPUTFILEPFX_mcmc.trees", "clock")
+tt.summarize()
+
+### write MAP tree to file
+mapTree(tt, "output/OUTPUTFILEPFX_MAP.tre")
+
+## quit ##
+q()
+
