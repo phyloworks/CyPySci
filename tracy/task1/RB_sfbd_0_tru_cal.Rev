@@ -1,0 +1,170 @@
+D <- readDiscreteCharacterData(file="B_sfbd_0.dat")
+
+n_sites <- D.nchar()
+
+mi = 1
+
+T <- readTrees("B_sfbd_0.SCL.tre")[1]
+
+n_taxa <- T.ntips()
+names <- T.names()
+
+birth_rate <- 0.02
+death_rate <- 0.01
+rho <- 1.0
+
+## Define ROOT ###
+true_root_age <- T.rootAge()
+root_min <- 241.81
+root_max <- (2.0 * (true_root_age - root_min)) + root_min
+root_time ~ dnUniform(root_min, root_max)
+root_time.setValue(true_root_age)
+
+### Clades ###
+clade0 <- clade("T1","T8")
+clade1 <- clade("T1","T7")
+clade2 <- clade("T1","T4")
+clade3 <- clade("T4","T5")
+clade4 <- clade("T12","T13")
+clade5 <- clade("T14","T21")
+clade6 <- clade("T18","T19")
+clade7 <- clade("T21","T23")
+clade8 <- clade("T21","T22")
+clade9 <- clade("T23","T24")
+
+
+
+timetree ~ dnBDP(lambda=birth_rate, mu=death_rate, rho=rho, rootAge=root_time, samplingStrategy="uniform", condition="nTaxa", nTaxa=n_taxa, names=names)
+timetree.setValue(T)
+
+### Calibrations ###
+
+tmrca_clade0 := tmrca(timetree,clade0)
+n_TMRCA_clade0 := -(tmrca_clade0)
+clade0_fossil_age <- -120.103
+clade0_true_age <- 138.2
+clade0_lambda <- 1.0 / (clade0_true_age - 120.103)
+clade0_fossil_snode ~ dnExponential(lambda=clade0_lambda, offset=n_TMRCA_clade0)
+clade0_fossil_snode.clamp(clade0_fossil_age)
+
+
+tmrca_clade1 := tmrca(timetree,clade1)
+n_TMRCA_clade1 := -(tmrca_clade1)
+clade1_fossil_age <- -73.5762
+clade1_true_age <- 117.219
+clade1_lambda <- 1.0 / (clade1_true_age - 73.5762)
+clade1_fossil_snode ~ dnExponential(lambda=clade1_lambda, offset=n_TMRCA_clade1)
+clade1_fossil_snode.clamp(clade1_fossil_age)
+
+
+tmrca_clade2 := tmrca(timetree,clade2)
+n_TMRCA_clade2 := -(tmrca_clade2)
+clade2_fossil_age <- -39.5212
+clade2_true_age <- 66.1988
+clade2_lambda <- 1.0 / (clade2_true_age - 39.5212)
+clade2_fossil_snode ~ dnExponential(lambda=clade2_lambda, offset=n_TMRCA_clade2)
+clade2_fossil_snode.clamp(clade2_fossil_age)
+
+
+tmrca_clade3 := tmrca(timetree,clade3)
+n_TMRCA_clade3 := -(tmrca_clade3)
+clade3_fossil_age <- -15.7573
+clade3_true_age <- 46.8119
+clade3_lambda <- 1.0 / (clade3_true_age - 15.7573)
+clade3_fossil_snode ~ dnExponential(lambda=clade3_lambda, offset=n_TMRCA_clade3)
+clade3_fossil_snode.clamp(clade3_fossil_age)
+
+
+tmrca_clade4 := tmrca(timetree,clade4)
+n_TMRCA_clade4 := -(tmrca_clade4)
+clade4_fossil_age <- -4.71733
+clade4_true_age <- 6.70957
+clade4_lambda <- 1.0 / (clade4_true_age - 4.71733)
+clade4_fossil_snode ~ dnExponential(lambda=clade4_lambda, offset=n_TMRCA_clade4)
+clade4_fossil_snode.clamp(clade4_fossil_age)
+
+
+tmrca_clade5 := tmrca(timetree,clade5)
+n_TMRCA_clade5 := -(tmrca_clade5)
+clade5_fossil_age <- -173.161
+clade5_true_age <- 179.243
+clade5_lambda <- 1.0 / (clade5_true_age - 173.161)
+clade5_fossil_snode ~ dnExponential(lambda=clade5_lambda, offset=n_TMRCA_clade5)
+clade5_fossil_snode.clamp(clade5_fossil_age)
+
+
+tmrca_clade6 := tmrca(timetree,clade6)
+n_TMRCA_clade6 := -(tmrca_clade6)
+clade6_fossil_age <- -44.3561
+clade6_true_age <- 71.1195
+clade6_lambda <- 1.0 / (clade6_true_age - 44.3561)
+clade6_fossil_snode ~ dnExponential(lambda=clade6_lambda, offset=n_TMRCA_clade6)
+clade6_fossil_snode.clamp(clade6_fossil_age)
+
+
+tmrca_clade7 := tmrca(timetree,clade7)
+n_TMRCA_clade7 := -(tmrca_clade7)
+clade7_fossil_age <- -46.1845
+clade7_true_age <- 112.589
+clade7_lambda <- 1.0 / (clade7_true_age - 46.1845)
+clade7_fossil_snode ~ dnExponential(lambda=clade7_lambda, offset=n_TMRCA_clade7)
+clade7_fossil_snode.clamp(clade7_fossil_age)
+
+
+tmrca_clade8 := tmrca(timetree,clade8)
+n_TMRCA_clade8 := -(tmrca_clade8)
+clade8_fossil_age <- -10.1204
+clade8_true_age <- 22.632
+clade8_lambda <- 1.0 / (clade8_true_age - 10.1204)
+clade8_fossil_snode ~ dnExponential(lambda=clade8_lambda, offset=n_TMRCA_clade8)
+clade8_fossil_snode.clamp(clade8_fossil_age)
+
+
+tmrca_clade9 := tmrca(timetree,clade9)
+n_TMRCA_clade9 := -(tmrca_clade9)
+clade9_fossil_age <- -6.97984
+clade9_true_age <- 34.9645
+clade9_lambda <- 1.0 / (clade9_true_age - 6.97984)
+clade9_fossil_snode ~ dnExponential(lambda=clade9_lambda, offset=n_TMRCA_clade9)
+clade9_fossil_snode.clamp(clade9_fossil_age)
+
+
+
+moves[mi++] = mvNodeTimeSlideUniform(timetree, weight=30.0)
+moves[mi++] = mvSlide(root_time, delta=2.0, tune=true, weight=10.0)
+moves[mi++] = mvScale(root_time, lambda=2.0, tune=true, weight=10.0)
+moves[mi++] = mvTreeScale(tree=timetree, rootAge=root_time, delta=1.0, tune=true, weight=3.0)
+
+### load the model from file 
+source("m_GMC_sims.Rev")
+
+### workspace model wrapper ###
+mymodel = model(er)
+
+### set up the monitors that will output parameter values to file and screen 
+monitors[1] = mnModel(filename="output/RB_sfbd_0_mcmc.log", printgen=10)
+monitors[2] = mnFile(filename="output/RB_sfbd_0_mcmc.trees", printgen=10, timetree)
+monitors[3] = mnScreen(printgen=1000, clock_rate, root_time)
+
+### workspace mcmc ###
+mymcmc = mcmc(mymodel, monitors, moves)
+
+### pre-burnin to tune the proposals ###
+mymcmc.burnin(generations=1000,tuningInterval=250)
+
+### run the MCMC ###
+mymcmc.run(generations=10000)
+
+### display proposal acceptance rates and tuning ###
+mymcmc.operatorSummary()
+
+### summarize the trees ###
+tt = readTreeTrace("output/RB_sfbd_0_mcmc.trees", "clock")
+tt.summarize()
+
+### write MAP tree to file
+mapTree(tt, "output/RB_sfbd_0_MAP.tre")
+
+## quit ##
+q()
+
