@@ -66,7 +66,6 @@ for i in range(nreps):
 		constraints_def += nodes[j][0] + "\n"
 		constraints_names += j + ", "
 	rev_out = rev_out.replace("CLADEVARDEF",constraints_def)
-	#rev_out = rev_out.replace("CLADEVARNAMES",constraints_names.strip()[0:-1])
 	rev_out = rev_out.replace("ROOTAGEMIN",str(oldest))
 	calibration_defs = ""
 	for j in clade_names:
