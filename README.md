@@ -10,4 +10,4 @@ A tutorial on git can be found [here](https://git.lumc.nl/humgen/programming-cou
 
 We are using the [Anaconda](https://www.continuum.io/downloads) distribution of python.
 
-If you would like to joint this group, contact Dr. Heath or Dr. Nason.
+If you would like to join this group, contact Dr. Heath or Dr. Nason.
