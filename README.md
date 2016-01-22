@@ -11,3 +11,9 @@ A tutorial on git can be found [here](https://git.lumc.nl/humgen/programming-cou
 We are using the [Anaconda](https://www.continuum.io/downloads) distribution of python.
 
 If you would like to joint this group, contact Dr. Heath or Dr. Nason.
+
+|Week | Presenter |
+|-----|-----------|
+|Jan. 29 | Nick  - Pandas |
+|Feb. 5 | Nick - BLAST |
+|Feb. 12 | ?????? |
