@@ -14,6 +14,6 @@ If you would like to joint this group, contact Dr. Heath or Dr. Nason.
 
 |Week | Presenter |
 |-----|-----------|
-|Jan. 29 | Nick  - Pandas |
+|Jan. 29 | Nick  - Pandas see tutorials from [Data Carpentry](http://www.datacarpentry.org/python-ecology/)|
 |Feb. 5 | Nick - BLAST |
 |Feb. 12 | ?????? |
