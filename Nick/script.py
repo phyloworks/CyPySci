@@ -26,12 +26,8 @@ pd.DataFrame(unique_genes_per_ref)
 #From Desktop, open atextfile.txt in Notepad++. Create header (Ref, UniqueIDs). Find: ^([^\s]+)\s+([^\s])+ Replace: \1,\2 
 #Save as: "unique_genes_per_ref.txt"
 
-filename_unique_genes_per_ref = "unique_genes_per_ref.txt"
-unique_genes_per_ref_csv = pd.read_csv(filename_unique_genes_per_ref)
-#print(unique_genes_per_ref_csv)
-
-unique_genes_per_ref_csv_ONEs = (unique_genes_per_ref_csv.loc[unique_genes_per_ref_csv['UniqueIDs'] == 1])
-#print(unique_genes_per_ref_csv_ONEs)
+unique = unique_genes_per_ref[unique_genes_per_ref['geneid'] <= 1]
+pd.merge(df, unique, right_on=['ref','geneid'],left_on=['ref', 'isoformnum'], how='inner')
 
 unique_genes_per_ref_csv_ONEs_List =  unique_genes_per_ref_csv_ONEs['Ref'].tolist()
 #print(unique_genes_per_ref_csv_ONEs_List), print(type(unique_genes_per_ref_csv_ONEs_List))
@@ -68,3 +64,4 @@ unique_match_per_geneid_csv_ONEs_List =  unique_match_per_geneid_csv_ONEs['genei
 #print(unique_match_per_geneid_csv_ONEs_List), print(type(unique_match_per_geneid_csv_ONEs_List))
 
 ###Filter original CSV. First: Get rows by 'ref' (column), Second: Get rows by 'geneid' (column)
+
