@@ -1,6 +1,8 @@
 import pandas as pd
 import numpy as np
 
+filename = "tempname.txt"
+
 df = pd.read_csv(filename)
 
 ################################
