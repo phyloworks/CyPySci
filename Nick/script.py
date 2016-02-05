@@ -15,13 +15,12 @@ print(df.head(4))"""
 
 ### To add geneid & isoformnum columns to .txt file, find: ^(c.*_.*_i[0-9]+,)(c.*_.*)(_i)([0-9]+)(,) , replace: \1\1\2,\4, ###
     
-unique_genes_per_ref = df.groupby(by='ref').geneid.nunique()
+unique_genes_per_ref = df.groupby(by='ref').geneid.nunique().reset_index()
 #print(unique_genes_per_ref)
 
 #len(unique_genes_per_ref.axes)
 
 pd.DataFrame(unique_genes_per_ref)
-
 
 #To turn atextfile.txt into comma separated .txt file with 2 columns!
 #From Desktop, open atextfile.txt in Notepad++. Create header (Ref, UniqueIDs). Find: ^([^\s]+)\s+([^\s])+ Replace: \1,\2 
