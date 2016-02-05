@@ -20,7 +20,8 @@ unique_genes_per_ref = df.groupby(by='ref').geneid.nunique()
 
 #len(unique_genes_per_ref.axes)
 
-unique_genes_per_ref.to_string('atextfile.txt')
+pd.DataFrame(unique_genes_per_ref)
+
 
 #To turn atextfile.txt into comma separated .txt file with 2 columns!
 #From Desktop, open atextfile.txt in Notepad++. Create header (Ref, UniqueIDs). Find: ^([^\s]+)\s+([^\s])+ Replace: \1,\2 
