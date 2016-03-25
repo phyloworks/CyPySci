@@ -1,9 +1,0 @@
-a,geneid,c,evalue
-c10_2,blah,c10,2,0
-c10_3,blah,c10,3,4e-24
-c11_1,blah,c11,1,0
-c12_1,blah,c12,1,4e-21
-c14_2,blah,c14,2,0
-c15_1,blah,c15,1,0
-c15_3,blah,c15,3,4e-12
-c15_4,blah,c15,4,0
