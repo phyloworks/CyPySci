@@ -1,31 +1,41 @@
 import pandas as pd
 filename = "testfile.txt"														
-df_combined = pd.read_csv(filename)												
-geneid_prev = "null"
-evalue_prev = "null"
-index_prev = "null"
+test_df = pd.read_csv(filename)	
+											
+geneid_prev = "start"
+evalue_prev = "start"
+i = 0
 print("#######################")
-for row in df_combined.itertuples():
-	current_geneid = df_combined.iloc[2]  #### This is the problem area. Can't grab from column (look at how we did it earlier)
-	current_evalue = df_combined.iloc[4]
-	if current_geneid.str.match(geneid_prev, as_indexer = True) is True: 
-		if current_evalue >= evalue_prev:
-			df_combined.drop()
-		elif current_evalue <= evalue_prev:
-			df_combined.drop(index_prev)
-			geneid_prev = current_geneid
-			evalue_prev = current_evalue
-			index_prev = df_combined.iloc[0]
-		elif current_evalue == evalue_prev:
-			df_combined.drop(index_prev)						#delete previous row if same evalue, or flag for us to look at it?
-			geneid_prev = current_geneid
-			evalue_prev = current_evalue
-			index_prev = df_combined.iloc[0]
-		print("is True")
-	elif current_geneid.str.match(geneid_prev, as_indexer = True) is not True:
-		geneid_prev = current_geneid
-		evalue_prev = current_evalue
-		index_prev = df_combined.iloc[0]
-		print("is not True")
+
+test_df.drop("c10_2") #cant drop row based on index, for some reason
+"""
+for row in test_df.itertuples():
+	geneid_current = test_df.iloc[i,1] 
+	evalue_current = test_df.iloc[i,3]
+
+	if geneid_current == geneid_prev: 
+		print(geneid_current, "is equal to", geneid_prev)
+		if evalue_current >= evalue_prev:
+			print(evalue_current, "is greater than", evalue_prev, "should drop this row")
+			test_df.drop(test_df.index[i])
+			
+		elif evalue_current <= evalue_prev:
+			print(evalue_current, "is less than", evalue_prev, "should drop previous row")
+			test_df.drop(test_df.index[i-1])
+			geneid_prev = geneid_current
+			evalue_prev = evalue_current
+			
+		elif evalue_current == evalue_prev:
+			print(evalue_current, "is equal to", evalue_prev, "should drop previous row")
+			test_df.drop(test_df.index[i-1])						#delete previous row if same evalue, or flag for us to look at it?
+			geneid_prev = geneid_current
+			evalue_prev = evalue_current
+			
+	else:
+		print(geneid_current, "is not equal to", geneid_prev)
+		geneid_prev = geneid_current
+		evalue_prev = evalue_current
 		
-print(df_combined)
+	i = i + 1
+"""
+print(test_df)
